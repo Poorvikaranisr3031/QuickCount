@@ -417,13 +417,35 @@ function saveUsers(u){ localStorage.setItem('afc_users', JSON.stringify(u)); }
 regBtn.onclick = () => {
   const u = regUser.value.trim();
   const p = regPass.value;
-  if (!u || !p) { authMsg.innerText = "Enter username and password"; return; }
+
+  if (!u || !p) {
+    authMsg.innerText = "Enter username and password";
+    return;
+  }
+
   const users = getUsers();
-  if (users[u]) { authMsg.innerText = "User exists"; return; }
+
+  if (users[u]) {
+    authMsg.innerText = "User exists";
+    return;
+  }
+
+  // Save new user
   users[u] = { password: p };
   saveUsers(users);
-  authMsg.innerText = "Registered. You can now login.";
-  regUser.value=''; regPass.value='';
+
+  // Message
+  authMsg.innerText = "Registered successfully! Login now.";
+
+  // Clear fields
+  regUser.value = '';
+  regPass.value = '';
+
+  // 👉 HIDE REGISTER PANEL  
+  regUser.parentElement.style.display = "none";
+
+  // 👉 OPTIONAL: highlight Login section  
+  loginUser.focus();
 };
 
 loginBtn.onclick = () => {
